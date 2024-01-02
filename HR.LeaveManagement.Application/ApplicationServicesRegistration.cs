@@ -1,4 +1,6 @@
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using HR.LeaveManagement.Application.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,11 @@ public static class ApplicationServicesRegistration
         services.AddMediatR(
             cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
         );
+
+        // FluentValidation
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // register validators
+        services.AddFluentValidationAutoValidation(); // the same old MVC pipeline behavior
+        services.AddFluentValidationClientsideAdapters(); // for client side
         return services;
     }
 }
